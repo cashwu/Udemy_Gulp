@@ -1,2 +1,6 @@
 body {
   color: blue; }
+
+.card {
+  -webkit-transform: rotate(120deg);
+          transform: rotate(120deg); }
