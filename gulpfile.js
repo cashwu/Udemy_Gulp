@@ -1,21 +1,19 @@
 var gulp = require("gulp");
-var jade = require('gulp-jade');
-var sass = require('gulp-sass');
-var plumber = require('gulp-plumber');
+var $ = require('gulp-load-plugins')();
 
-var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
+
 
 gulp.task("copyHTML", function() {
     return gulp.src("./source/**/*.html")
-        .pipe(plumber())
+        .pipe($.plumber())
         .pipe(gulp.dest("./public/"))
 })
 
 gulp.task('jade', function() {
     gulp.src("./source/*.jade")
-        .pipe(plumber())
-        .pipe(jade({
+        .pipe($.plumber())
+        .pipe($.jade({
             pretty: true
         }))
         .pipe(gulp.dest("./public/"))
@@ -28,10 +26,10 @@ gulp.task('sass', function() {
     ];
 
     return gulp.src('./source/scss/**/*.scss')
-        .pipe(plumber())
-        .pipe(sass().on('error', sass.logError))
+        .pipe($.plumber())
+        .pipe($.sass().on('error', $.sass.logError))
         // 編譯完成 css
-        .pipe(postcss(plugins))
+        .pipe($.postcss(plugins))
         .pipe(gulp.dest('./public/css'));
 });
 
