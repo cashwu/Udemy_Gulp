@@ -33,9 +33,20 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('./public/css'));
 });
 
+gulp.task('babel', () =>
+    gulp.src('./source/js/**/*.js')
+        //.pipe(sourcemaps.init())
+        .pipe($.babel({
+            presets: ['env']
+        }))
+        .pipe($.concat('all.js'))
+        //.pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('./public/js'))
+);
+
 gulp.task('watch', function() {
     gulp.watch('./source/scss/**/*.scss', ['sass']);
     gulp.watch('./source/*.jade', ['jade']);
 });
 
-gulp.task("default", ["jade", "sass", "watch"]);
+gulp.task("default", ["jade", "sass", "babel", "watch"]);
