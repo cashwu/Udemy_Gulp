@@ -1,0 +1,21 @@
+{
+  "name": "gulptest",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "cashwu <cash@cashwu.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/cashwu/Udemy_Gulp",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "bootstrap": "boostrap#^3.3.7"
+  }
+}
