@@ -1,6 +1,6 @@
 var gulp = require("gulp");
 var $ = require('gulp-load-plugins')();
-
+var mainBowerFiles = require('main-bower-files');
 var autoprefixer = require('autoprefixer');
 
 
@@ -17,6 +17,11 @@ gulp.task('jade', function() {
             pretty: true
         }))
         .pipe(gulp.dest("./public/"))
+});
+
+gulp.task('bower', function() {
+    return gulp.src(mainBowerFiles())
+        .pipe(gulp.dest("./.tmp/vendors"))
 });
 
 gulp.task('sass', function() {
@@ -52,4 +57,4 @@ gulp.task('watch', function() {
     gulp.watch('./source/js/**/*.jade', ['babel']);
 });
 
-gulp.task("default", ["jade", "sass", "babel", "watch"]);
+gulp.task("default", ["jade", "sass", "babel", "bower", "watch"]);
