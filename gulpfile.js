@@ -24,6 +24,12 @@ gulp.task('bower', function() {
         .pipe(gulp.dest("./.tmp/vendors"))
 });
 
+gulp.task("vendorJs", ["bower"], function() {
+    return gulp.src("./.tmp/vendors/**/**.js")
+        .pipe($.concat("vendors.js"))
+        .pipe(gulp.dest("./public/js"))
+});
+
 gulp.task('sass', function() {
 
     var plugins = [
@@ -57,4 +63,4 @@ gulp.task('watch', function() {
     gulp.watch('./source/js/**/*.jade', ['babel']);
 });
 
-gulp.task("default", ["jade", "sass", "babel", "bower", "watch"]);
+gulp.task("default", ["jade", "sass", "babel", "watch", "vendorJs"]);
