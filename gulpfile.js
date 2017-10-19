@@ -2,12 +2,13 @@ var gulp = require("gulp");
 var $ = require('gulp-load-plugins')();
 var mainBowerFiles = require('main-bower-files');
 var autoprefixer = require('autoprefixer');
-
+var browserSync = require('browser-sync').create();
 
 gulp.task("copyHTML", function() {
     return gulp.src("./source/**/*.html")
         .pipe($.plumber())
         .pipe(gulp.dest("./public/"))
+        .pipe(browserSync.stream());
 })
 
 gulp.task('jade', function() {
@@ -17,6 +18,7 @@ gulp.task('jade', function() {
             pretty: true
         }))
         .pipe(gulp.dest("./public/"))
+        .pipe(browserSync.stream());
 });
 
 gulp.task('bower', function() {
@@ -43,7 +45,8 @@ gulp.task('sass', function() {
         // 編譯完成 css
         .pipe($.postcss(plugins))
         .pipe($.sourcemaps.write('.'))
-        .pipe(gulp.dest('./public/css'));
+        .pipe(gulp.dest('./public/css'))
+        .pipe(browserSync.stream());
 });
 
 gulp.task('babel', () =>
@@ -55,12 +58,21 @@ gulp.task('babel', () =>
     .pipe($.concat('all.js'))
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('./public/js'))
+    .pipe(browserSync.stream())
 );
+
+gulp.task('browser-sync', function() {
+    browserSync.init({
+        server: {
+            baseDir: "./public"
+        }
+    });
+});
 
 gulp.task('watch', function() {
     gulp.watch('./source/scss/**/*.scss', ['sass']);
     gulp.watch('./source/*.jade', ['jade']);
-    gulp.watch('./source/js/**/*.jade', ['babel']);
+    gulp.watch('./source/js/**/*.js', ['babel'])
 });
 
-gulp.task("default", ["jade", "sass", "babel", "watch", "vendorJs"]);
+gulp.task("default", ["jade", "sass", "babel", "watch", "vendorJs", "browser-sync"]);

@@ -1,11 +1,9 @@
-
-$primary-color: blue;
-
+$primary-color: rgb(111, 255, 170);
 body {
     color: $primary-color;
 }
 
 .card {
     transform: rotate(120deg);
-    filter : blur(3px);
+    filter: blur(3px);
 }

@@ -1,5 +1,5 @@
 let newFunction2 = () => {
-    console.log("test")
+    console.log("test23")
 }
 
 newFunction2();
