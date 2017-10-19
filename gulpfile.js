@@ -3,6 +3,7 @@ var $ = require('gulp-load-plugins')();
 var mainBowerFiles = require('main-bower-files');
 var autoprefixer = require('autoprefixer');
 var browserSync = require('browser-sync').create();
+var cleanCSS = require('gulp-clean-css');
 
 gulp.task("copyHTML", function() {
     return gulp.src("./source/**/*.html")
@@ -45,7 +46,7 @@ gulp.task('sass', function() {
         .pipe($.sass().on('error', $.sass.logError))
         // 編譯完成 css
         .pipe($.postcss(plugins))
-        .pipe($.minifyCss())
+        .pipe(cleanCSS())
         .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest('./public/css'))
         .pipe(browserSync.stream());
