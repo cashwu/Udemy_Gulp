@@ -4,6 +4,15 @@ var mainBowerFiles = require('main-bower-files');
 var autoprefixer = require('autoprefixer');
 var browserSync = require('browser-sync').create();
 var cleanCSS = require('gulp-clean-css');
+var parseArgs = require('minimist');
+
+var envOptions = {
+    string: "env",
+    default: { env: "develop" }
+}
+
+var options = parseArgs(process.argv.slice(2), envOptions);
+console.dir(options);
 
 gulp.task("copyHTML", function() {
     return gulp.src("./source/**/*.html")
@@ -30,7 +39,7 @@ gulp.task('bower', function() {
 gulp.task("vendorJs", ["bower"], function() {
     return gulp.src("./.tmp/vendors/**/**.js")
         .pipe($.concat("vendors.js"))
-        .pipe($.uglify())
+        .pipe($.if(options.env === "prod", $.uglify()))
         .pipe(gulp.dest("./public/js"))
 });
 
@@ -46,7 +55,7 @@ gulp.task('sass', function() {
         .pipe($.sass().on('error', $.sass.logError))
         // 編譯完成 css
         .pipe($.postcss(plugins))
-        .pipe(cleanCSS())
+        .pipe($.if(options.env === "prod", cleanCSS()))
         .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest('./public/css'))
         .pipe(browserSync.stream());
@@ -59,11 +68,11 @@ gulp.task('babel', () =>
         presets: ['env']
     }))
     .pipe($.concat('all.js'))
-    .pipe($.uglify({
+    .pipe($.if(options.env === "prod", $.uglify({
         compress: {
             drop_console: true
         }
-    }))
+    })))
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('./public/js'))
     .pipe(browserSync.stream())
