@@ -5,6 +5,7 @@ var autoprefixer = require('autoprefixer');
 var browserSync = require('browser-sync').create();
 var cleanCSS = require('gulp-clean-css');
 var parseArgs = require('minimist');
+var gulpSequence = require('gulp-sequence')
 
 var envOptions = {
     string: "env",
@@ -13,6 +14,11 @@ var envOptions = {
 
 var options = parseArgs(process.argv.slice(2), envOptions);
 console.dir(options);
+
+gulp.task('clean', function() {
+    return gulp.src(['./.tmp', "./public"], { read: false })
+        .pipe($.clean());
+});
 
 gulp.task("copyHTML", function() {
     return gulp.src("./source/**/*.html")
@@ -91,5 +97,7 @@ gulp.task('watch', function() {
     gulp.watch('./source/*.jade', ['jade']);
     gulp.watch('./source/js/**/*.js', ['babel'])
 });
+
+gulp.task('build', gulpSequence("jade", "sass", "babel", "vendorJs", "clean"))
 
 gulp.task("default", ["jade", "sass", "babel", "watch", "vendorJs", "browser-sync"]);

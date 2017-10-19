@@ -1,1 +1,0 @@
-{"version":3,"sources":["all.js","all2.js"],"names":["newFunction","newFunction2"],"mappings":"aAAA,IAAIA,YAAc,aAEjBA,cCFD,IAAIC,aAAe,aAInBA","file":"all.js","sourcesContent":["let newFunction = () => {\n    console.log(\"Heliisdfsdfslo123\")\n}\n\nnewFunction();","let newFunction2 = () => {\n    console.log(\"test23\")\n}\n\nnewFunction2();"]}
