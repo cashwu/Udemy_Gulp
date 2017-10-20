@@ -98,6 +98,12 @@ gulp.task('watch', function() {
     gulp.watch('./source/js/**/*.js', ['babel'])
 });
 
+gulp.task('image-min', () =>
+    gulp.src('./source/images/*')
+    .pipe($.if(options.env === "prod", $.imagemin()))
+    .pipe(gulp.dest('./public/images'))
+);
+
 gulp.task('build', gulpSequence("jade", "sass", "babel", "vendorJs", "clean"))
 
-gulp.task("default", ["jade", "sass", "babel", "watch", "vendorJs", "browser-sync"]);
+gulp.task("default", ["jade", "sass", "babel", "watch", "vendorJs", "browser-sync", "image-min"]);
