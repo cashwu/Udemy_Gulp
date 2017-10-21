@@ -104,6 +104,11 @@ gulp.task('image-min', () =>
     .pipe(gulp.dest('./public/images'))
 );
 
+gulp.task('deploy', function() {
+    return gulp.src('./public/**/*')
+        .pipe($.ghPages());
+});
+
 gulp.task('build', gulpSequence("jade", "sass", "babel", "vendorJs", "clean"))
 
 gulp.task("default", ["jade", "sass", "babel", "watch", "vendorJs", "browser-sync", "image-min"]);
